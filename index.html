@@ -4,53 +4,38 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <style>
-        .student{
-            cursor: pointer;
-        }
-        .default1 p{
-            /*background: red;*/
-        }
-        .student{
-            background: red;
-        }
-        .student-back{
-            background: blue;
-        }
-    </style>
+
 </head>
 <body>
     <div id="app">
-        <p>Using mustaches: {{ rawHtml }}</p>
 
-        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+        <div>
 
-        <h1>{{ intro }}</h1>
-
-        <input type="color" v-model="selectedColor">
-
-        <div class="default1" :style="[{'background-color': selectedColor}]">
             <p
-                    id="student-status"
                     v-for="(student, i) in students"
                     :key="student.i"
-                    @click="studentDetails(student)"
-                    class="student"
                     :class="{'student-back': student.status}"
             >
-                    index: {{ i + 1}} Name: {{ student.name }} - Phone: {{ student.phone }} Status: {{ student.status }}
+                    Name: {{ student.name }}  <span v-if="student.status == false">Has not paid school fees</span>
+
+                    <span v-else>Good to go</span>
+
+                <!--
+                The difference between v-if and v-show is that an element with v-show will
+                always be rendered and remain in the DOM; v-show
+                only toggles the display CSS property of the element while v-if conditional block won’t be
+                rendered until the condition becomes true for the first time
+                -->
+
+                <span v-show="student.status">This element shows when the student status is true</span>
             </p>
+
         </div>
 
-        <todo-item></todo-item>
-        <todo-item></todo-item>
     </div>
 
 
     <script>
-        Vue.component('todo-item', {
-            template: '<li>This is a todo</li>'
-        })
 
         let app = new Vue({
 
@@ -58,10 +43,7 @@
 
             data() {
                 return {
-                    rawHtml: '<span style="color: red;">this should be red</span>',
-                    intro: 'Welcome to vue class',
-                    selectedColor: '',
-                    addColor: '',
+
                     students: [
                         {name: 'obi justin', phone: 7078968796, email: 'justin@gmail.com', status: false},
                         {name: 'emeka ibe', phone: 78428968796, email: 'ibe@gmail.com', status: true},
@@ -69,12 +51,6 @@
                         {name: 'jon ibe', phone: 707896844, email: 'ibe@gmail.com', status: true},
                         {name: 'John doe', phone: 711968796, email: 'cjustinobi@gmail.com', status: false},
                     ]
-                }
-            },
-
-            methods: {
-                studentDetails (detail) {
-                    alert(JSON.stringify(detail))
                 }
             },
 
